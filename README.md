@@ -1,11 +1,11 @@
-# grunt-wcjs
+# grunt-download-wcjs
 Grunt task to download & install pre-built WebChimera.js for Electron &amp; NW.JS
 
 
 ## Install
 
 ```
-$ npm install --save-dev grunt-wcjs
+$ npm install --save-dev grunt-download-wcjs
 ```
 
 

@@ -1,5 +1,5 @@
 {
-    "name": "grunt-wcjs",
+    "name": "grunt-download-wcjs",
     "description": "Grunt task to download pre-built WebChimera.js for Electron & NW.JS.",
     "version": "0.0.1",
     "license": "GPL-2.0",
@@ -16,6 +16,7 @@
         "WebChimera",
         "grunt WebChimera",
         "grunt wcjs",
+        "download wcjs"
         "WebChimera.js",
         "vlc"
     ],
