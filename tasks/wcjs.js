@@ -1,6 +1,11 @@
-var async = require('async');
 var _ = require('lodash');
-var defaults = require('./lib/defaults');
+var fs = require('fs');
+var path = require('path');
+var Promise = require('bluebird');
+var needle = require('needle');
+var mkdirp = require('mkdirp');
+
+
 
 /*
 
@@ -91,16 +96,13 @@ function getVLC(data) {
 */
 module.exports = function(grunt) {
 
-    grunt.registerTask('download', 'Download pre-built WebChimera.js with bundled VLC Libs', downloadTask);
+    grunt.registerTask('wcjs', 'Download pre-built WebChimera.js with bundled VLC Libs', downloadTask);
 
     function downloadTask() {
         var params = this.options();
 
+        console.log(params);
 
-        async.waterfall([
-            getWCJS.bind(options, platform, arch),
-            getVLC.bind(options)
-        ], done);
 
     }
 
