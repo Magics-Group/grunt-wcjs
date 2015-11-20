@@ -2,7 +2,7 @@
     "name": "grunt-wcjs",
     "description": "Grunt task to download pre-built WebChimera.js for Electron & NW.JS.",
     "version": "0.0.1",
-    "license": "GPLv2",
+    "license": "GPL-2.0",
     "author": "Luigi Poole",
     "repository": {
         "type": "git",
