@@ -3,8 +3,6 @@ var request = require('request');
 var progress = require('progress');
 var fs = require('fs');
 var path = require('path');
-var gunzip = require("gunzip-maybe");
-var tar = require('tar-fs');
 var temp = require('temp');
 var DecompressZip = require('decompress-zip');
 var ncp = require('graceful-ncp').ncp;
@@ -74,42 +72,6 @@ module.exports = {
 
             rq.pipe(stream);
         }
-
-        if (extention === '.gz') {
-            rq.on('response', function(res) {
-                if (res.statusCode !== 200) return;
-                self.extractTar(res, cachepath).then(self.stripRootFolder).then(function(files) {
-                    done.resolve(files);
-                });
-            });
-        }
-
-        return done.promise;
-    },
-    extractTar: function(tarstream, destination) {
-        var done = Promise.defer(),
-            files = [];
-
-        tarstream
-            .pipe(gunzip())
-            .on('error', function(err) {
-                done.reject(err);
-            })
-            .pipe(tar.extract(destination, {
-                umask: (isWin ? false : 0),
-                map: function(header) {
-                    files.push({
-                        path: path.basename(header.name)
-                    });
-                    return header;
-                }
-            }))
-            .on('finish', function() {
-                done.resolve({
-                    files: files,
-                    destination: destination
-                });
-            });
 
         return done.promise;
     },

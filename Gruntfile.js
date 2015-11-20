@@ -3,17 +3,16 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-
         wcjs: {
             options: {
-                version: 'latest',
-                dir: 'WebChimera',
-                force: true,
+                version: 'latest',      // Webchimera version
+                dir: 'WebChimera',      // Output dir
+                force: true,            // Overwrite 
                 runtime: {
-                    type: 'electron',
-                    version: 'latest',
-                    arch: 'x64',
-                    platform: 'osx'
+                    type: 'electron',   // nw.js / electron
+                    version: 'latest',  // latest / runtime version
+                    arch: 'x64',        // ia32 / x64 
+                    platform: 'win'     // win / osx / linux
                 }
             }
         }

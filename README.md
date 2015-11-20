@@ -1,5 +1,5 @@
 # grunt-wcjs
-Grunt task to download & install pre-built WebChimera.js with bundled VLC Libs for Electron &amp; NW.JS
+Grunt task to download & install pre-built WebChimera.js for Electron &amp; NW.JS
 
 
 ## Install
@@ -16,18 +16,18 @@ require('load-grunt-tasks')(grunt); // npm install --save-dev load-grunt-tasks
 
 grunt.initConfig({
 	wcjs: {
-		options: {
-			npmInstall: true, //Add WebChimera in node_modules 
-			version: 'latest', 	// WebChimera Version 
-			dir: 'WebChimera', // Cannot be used with npmInstall parm set to true; output dir for WebChimera
-			force: true, 		//Overwrite any pre-exsisting WebChimera
-			runtime: {
-				version: 'latest',	
-				arch: 'x64',
-				platform: 'win32'
-			}
-		}
-	}
+        options: {
+            version: 'latest',      // Webchimera version
+            dir: 'WebChimera',      // Output dir
+            force: true,            // Overwrite 
+            runtime: {
+                type: 'electron',   // nw.js / electron
+                version: 'latest',  // latest / runtime version
+                arch: 'x64',        // ia32 / x64 
+                platform: 'win'     // win / osx / linux
+            }
+        }
+    }
 });
 
 grunt.registerTask('default', ['wcjs']);
