@@ -4,65 +4,56 @@ var path = require('path');
 var Promise = require('bluebird');
 var needle = require('needle');
 var mkdirp = require('mkdirp');
+var async = require('async');
+
+var utils = require('./lib/utils');
+var downloader = require('./lib/downloader');
 
 
+function getWCJS(runtime, version, dir, callback) {
 
-/*
+    utils.getJson(('https://api.github.com/repos/RSATom/WebChimera.js/releases/' + ((version === 'latest') ? 'latest' : 'tags/' + version)))
+        .then(function(json) {
+            if (json.message === 'Not Found') {
+                console.log('No WebChimera Download Found');
+                return callback();
+            }
+            var candidate = false;
 
-function getWCJS(data) {
-    return new Promise(function(resolve, reject) {
-        var availableVersions = [];
-        var url = 'https://api.github.com/repos/RSATom/WebChimera.js/releases/' + ((data.version === 'latest') ? 'latest' : 'tags/' + data.version)
+            _.forEach(json.assets, function(asset) {
+                var assetParsed = path.parse(asset.name).name.split('_');
 
-        console.log(url);
+                var assetRuntime = {
+                    type: assetParsed[1],
+                    version: (version === 'latest') ? 'latest' : assetParsed[2],
+                    arch: assetParsed[3],
+                    platform: assetParsed[4]
+                };
+                if (_.isEqual(runtime, assetRuntime))
+                    candidate = asset;
+            });
 
-        getJson(url)
-            .then(function(json) {
+            if (!candidate) {
+                console.log('No WebChimera Download Found');
+                return callback();
+            }
 
-                if (json.message && json.message === 'Not Found')
-                    return reject('Version Not Found')
+            console.log('Acquiring: ', candidate.name);
 
-                var downloadName = json.name;
-                /*
-                _.remove(json.assets, function(asset) {
-                    asset = parsePath(asset.name).name.split('_');
-                    if (asset[1] === 'nw')
-                        asset[1] = 'nw.js'
-                    return (asset[1] === data.runtime && asset[3] === data.arch && asset[4] === data.platform); //remove all that are not for our runtime/arch/os.
-                }).forEach(function(entry) {
-                    availableVersions.push({
-                        version: parsePath(entry.name).name.split('_')[2],
-                        url: entry.browser_download_url,
-                        name: parsePath(entry.name).name
-                    })
-                });
-                if (data.runtimeVersion === 'latest') {
-                    var downloadObject = _.last(availableVersions);
-                } else {
-                    var downloadObject = _(availableVersions)
-                        .find(function(version) {
-                            return version.version === data.runtimeVersion;
-                        });
-                }
-                if (!downloadObject)
-                    return reject('No download candidate availale')
-                console.log('Acquiring: ', downloadObject.name);
-                downloader.downloadAndUnpack(data.targetDir, downloadObject.url)
-                    .then(function() {
-                        resolve(data);
-                    });
-                    */
-/*
-            })
-            .catch(reject)
-
-    });
+            downloader.downloadAndUnpack(dir, candidate.browser_download_url).then(function() {
+                return callback();
+            });
+        })
+        .catch(function(e) {
+            console.log('Error:', e);
+            return callback()
+        })
 }
 
 function getVLC(data) {
     return new Promise(function(resolve, reject) {
 
-        getJson('https://api.github.com/repos/Ivshti/vlc-prebuilt/releases/latest')
+        utils.getJson('https://api.github.com/repos/Ivshti/vlc-prebuilt/releases/latest')
             .then(function(json) {
 
                 var asset = false;
@@ -93,17 +84,32 @@ function getVLC(data) {
             .catch(reject)
     });
 }
-*/
+
+
+
+
+
 module.exports = function(grunt) {
 
     grunt.registerTask('wcjs', 'Download pre-built WebChimera.js with bundled VLC Libs', downloadTask);
 
     function downloadTask() {
-        var params = this.options();
+        var done = this.async();
+        var params = this.options({
+            version: 'latest',
+            dir: 'WebChimera',
+            force: true,
+            runtime: {
+                type: 'electron',
+                version: 'latest',
+                arch: 'x64',
+                platform: 'win'
+            }
+        });
 
-        console.log(params);
-
+        async.waterfall([
+            getWCJS.bind(null, params.runtime, params.version, params.dir)
+        ], done);
 
     }
-
 };

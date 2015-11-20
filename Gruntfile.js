@@ -6,14 +6,14 @@ module.exports = function(grunt) {
 
         wcjs: {
             options: {
-                npmInstall: true, //Add WebChimera in node_modules 
-                version: 'latest', // WebChimera Version 
-                dir: 'WebChimera', // Cannot be used with npmInstall parm set to true; output dir for WebChimera
-                force: true, //Overwrite any pre-exsisting WebChimera
+                version: 'latest',
+                dir: 'WebChimera',
+                force: true,
                 runtime: {
+                    type: 'electron',
                     version: 'latest',
                     arch: 'x64',
-                    platform: 'win32'
+                    platform: 'osx'
                 }
             }
         }
