@@ -8,6 +8,16 @@ var rimraf = require('rimraf');
 var utils = require('./lib/utils');
 var downloader = require('./lib/downloader');
 
+function getPlatformInfo() {
+    if (/linux/.test(process.platform)) {
+        return process.arch == 32 ? 'linux:ia32' : 'linux:x64';
+    } else if (/darwin/.test(process.platform)) {
+        return 'osx:ia32';
+    } else {
+        return 'win:ia32';
+    }
+}
+
 function getWCJS(runtime, version, dir, callback) {
     utils.getJson(('https://api.github.com/repos/RSATom/WebChimera.js/releases/' + ((version === 'latest') ? 'latest' : 'tags/' + version)))
         .then(function(json) {
@@ -60,8 +70,8 @@ module.exports = function(grunt) {
             runtime: {
                 type: 'electron',
                 version: 'latest',
-                arch: 'x64',
-                platform: 'win'
+                arch: getPlatformInfo().split(':')[1],
+                platform: getPlatformInfo().split(':')[0]
             }
         });
 
