@@ -2,6 +2,8 @@ var _ = require('lodash');
 var path = require('path');
 var Promise = require('bluebird');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
+
 
 var utils = require('./lib/utils');
 var downloader = require('./lib/downloader');
@@ -62,6 +64,14 @@ module.exports = function(grunt) {
                 platform: 'win'
             }
         });
-        getWCJS(params.runtime, params.version, params.dir, done);
+
+        if (params.force)
+            rimraf(params.dir, function() {
+                getWCJS(params.runtime, params.version, params.dir, done);
+            });
+        else {
+            getWCJS(params.runtime, params.version, params.dir, done);
+        }
+
     }
 };
