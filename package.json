@@ -1,0 +1,30 @@
+{
+    "name": "grunt-wcjs",
+    "description": "Grunt task to install pre-built WebChimera.js with bundled VLC Libs for Electron & NW.JS.",
+    "version": "0.0.1",
+    "license": "GPL",
+    "author": "Luigi Poole",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Magics-Group/grunt-wcjs.git"
+    },
+    "keywords": [
+        "gruntplugin",
+        "wcjs",
+        "grunt-wcjs",
+        "WebChimera",
+        "grunt WebChimera",
+        "grunt wcjs",
+        "WebChimera.js"
+    ],
+    "scripts": {
+        "test": "grunt test"
+    },
+    "dependencies": {
+
+
+    },
+    "devDependencies": {
+        "grunt": "^0.4.0",
+    }
+}
