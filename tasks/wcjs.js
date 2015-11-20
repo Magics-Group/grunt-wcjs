@@ -66,7 +66,7 @@ module.exports = function(grunt) {
         var params = this.options({
             version: 'latest',
             dir: 'WebChimera',
-            force: true,
+            force: false,
             runtime: {
                 type: 'electron',
                 version: 'latest',
