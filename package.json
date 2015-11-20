@@ -20,7 +20,7 @@
         "vlc"
     ],
     "scripts": {
-        "test": "grunt test"
+        "test": "grunt"
     },
     "dependencies": {
         "bluebird": "^3.0.5",
