@@ -16,7 +16,7 @@
         "WebChimera",
         "grunt WebChimera",
         "grunt wcjs",
-        "download wcjs"
+        "download wcjs",
         "WebChimera.js",
         "vlc"
     ],
