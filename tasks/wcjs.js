@@ -32,7 +32,7 @@ function getWCJS(runtime, version, dir, callback) {
 
                 var assetRuntime = {
                     type: assetParsed[1],
-                    version: (version === 'latest') ? 'latest' : assetParsed[2],
+                    version: (runtime.version === 'latest') ? 'latest' : assetParsed[2],
                     arch: assetParsed[3],
                     platform: assetParsed[4]
                 };
